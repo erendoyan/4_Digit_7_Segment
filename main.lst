@@ -1,0 +1,461 @@
+CCS PCM C Compiler, Version 5.007, 61971               13-Aðu-23 12:04
+
+               Filename:   C:\Users\Talip Eren Doyan\Desktop\c for pic\Proje\main.lst
+
+               ROM used:   295 words (4%)
+                           Largest free fragment is 2048
+               RAM used:   27 (7%) at main() level
+                           28 (8%) worst case
+               Stack used: 1 locations (0 in main + 1 for interrupts)
+               Stack size: 8
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   0DD
+0003:  NOP
+0004:  MOVWF  7F
+0005:  SWAPF  03,W
+0006:  CLRF   03
+0007:  MOVWF  21
+0008:  MOVF   0A,W
+0009:  MOVWF  20
+000A:  CLRF   0A
+000B:  MOVF   04,W
+000C:  MOVWF  22
+000D:  MOVF   77,W
+000E:  MOVWF  23
+000F:  MOVF   78,W
+0010:  MOVWF  24
+0011:  MOVF   79,W
+0012:  MOVWF  25
+0013:  MOVF   7A,W
+0014:  MOVWF  26
+0015:  BCF    03.7
+0016:  BCF    03.5
+0017:  BTFSS  0B.3
+0018:  GOTO   01B
+0019:  BTFSC  0B.0
+001A:  GOTO   030
+001B:  BTFSS  0B.5
+001C:  GOTO   01F
+001D:  BTFSC  0B.2
+001E:  GOTO   033
+001F:  MOVF   22,W
+0020:  MOVWF  04
+0021:  MOVF   23,W
+0022:  MOVWF  77
+0023:  MOVF   24,W
+0024:  MOVWF  78
+0025:  MOVF   25,W
+0026:  MOVWF  79
+0027:  MOVF   26,W
+0028:  MOVWF  7A
+0029:  MOVF   20,W
+002A:  MOVWF  0A
+002B:  SWAPF  21,W
+002C:  MOVWF  03
+002D:  SWAPF  7F,F
+002E:  SWAPF  7F,W
+002F:  RETFIE
+0030:  BCF    0A.3
+0031:  BCF    0A.4
+0032:  GOTO   036
+0033:  BCF    0A.3
+0034:  BCF    0A.4
+0035:  GOTO   0A6
+.................... #include <16f877.h> 
+.................... //////// Standard Header file for the PIC16F877 device //////////////// 
+.................... #device PIC16F877 
+....................  
+.................... #list 
+....................  
+.................... #fuses XT,NOPROTECT,NOBROWNOUT,NOWDT,NOLVP,NOWRT,NODEBUG,NOCPD, NOPUT 
+.................... #use delay(clock=1000000) 
+*
+0099:  MOVLW  36
+009A:  MOVWF  04
+009B:  BCF    03.7
+009C:  MOVF   00,W
+009D:  BTFSC  03.2
+009E:  GOTO   0A5
+009F:  MOVLW  52
+00A0:  MOVWF  77
+00A1:  DECFSZ 77,F
+00A2:  GOTO   0A1
+00A3:  DECFSZ 00,F
+00A4:  GOTO   09F
+00A5:  RETURN
+.................... #use fast_io(b) 
+.................... #use fast_io(d) 
+....................  
+.................... #define button1 pin_b4 
+.................... #define button2 pin_b5 
+.................... #define button3 pin_b6 
+.................... #define button4 pin_b7 
+....................  
+.................... #define display1 pin_b0 
+.................... #define display2 pin_b1 
+.................... #define display3 pin_b2 
+.................... #define display4 pin_b3 
+....................  
+.................... int button = 0; 
+.................... int digit[] = {0b1000000,0b1111001,0b0100100,0b0110000,0b0011001,0b0010010,0b0000010,0b1111000,0b0000000,0b0010000}; 
+*
+00EA:  MOVLW  40
+00EB:  BCF    03.5
+00EC:  MOVWF  28
+00ED:  MOVLW  79
+00EE:  MOVWF  29
+00EF:  MOVLW  24
+00F0:  MOVWF  2A
+00F1:  MOVLW  30
+00F2:  MOVWF  2B
+00F3:  MOVLW  19
+00F4:  MOVWF  2C
+00F5:  MOVLW  12
+00F6:  MOVWF  2D
+00F7:  MOVLW  02
+00F8:  MOVWF  2E
+00F9:  MOVLW  78
+00FA:  MOVWF  2F
+00FB:  CLRF   30
+00FC:  MOVLW  10
+00FD:  MOVWF  31
+.................... int binler=0, yuzler=0, onlar=0, birler=0; 
+....................  
+.................... #int_rb 
+.................... void rb_kesme() { 
+....................    if (input(button1)){ 
+*
+0036:  BTFSS  06.4
+0037:  GOTO   03B
+....................       button=1; 
+0038:  MOVLW  01
+0039:  MOVWF  27
+....................    } 
+003A:  GOTO   04B
+....................    else if (input(button2)){ 
+003B:  BTFSS  06.5
+003C:  GOTO   040
+....................       button=2; 
+003D:  MOVLW  02
+003E:  MOVWF  27
+....................    } 
+003F:  GOTO   04B
+....................    else if (input(button3)){ 
+0040:  BTFSS  06.6
+0041:  GOTO   045
+....................       button=3; 
+0042:  MOVLW  03
+0043:  MOVWF  27
+....................    } 
+0044:  GOTO   04B
+....................    else if (input(button4)){ 
+0045:  BTFSS  06.7
+0046:  GOTO   04A
+....................       button=4; 
+0047:  MOVLW  04
+0048:  MOVWF  27
+....................    } 
+0049:  GOTO   04B
+....................    else{ 
+....................       button=0; 
+004A:  CLRF   27
+....................    } 
+....................    if (button == 1) { 
+004B:  DECFSZ 27,W
+004C:  GOTO   065
+....................       birler++; 
+004D:  INCF   35,F
+....................       if (birler > 9) { 
+004E:  MOVF   35,W
+004F:  SUBLW  09
+0050:  BTFSC  03.0
+0051:  GOTO   064
+....................          birler = 0; 
+0052:  CLRF   35
+....................          onlar++; 
+0053:  INCF   34,F
+....................          if (onlar > 9) { 
+0054:  MOVF   34,W
+0055:  SUBLW  09
+0056:  BTFSC  03.0
+0057:  GOTO   064
+....................             onlar = 0; 
+0058:  CLRF   34
+....................             yuzler++; 
+0059:  INCF   33,F
+....................             if (yuzler > 9) { 
+005A:  MOVF   33,W
+005B:  SUBLW  09
+005C:  BTFSC  03.0
+005D:  GOTO   064
+....................                yuzler = 0; 
+005E:  CLRF   33
+....................                binler++; 
+005F:  INCF   32,F
+....................                if (binler > 9) { 
+0060:  MOVF   32,W
+0061:  SUBLW  09
+0062:  BTFSS  03.0
+....................                   binler = 0; 
+0063:  CLRF   32
+....................                } 
+....................             } 
+....................          } 
+....................       } 
+....................    } else if (button == 2) { 
+0064:  GOTO   094
+0065:  MOVF   27,W
+0066:  SUBLW  02
+0067:  BTFSS  03.2
+0068:  GOTO   07B
+....................       onlar++; 
+0069:  INCF   34,F
+....................       if (onlar > 9) { 
+006A:  MOVF   34,W
+006B:  SUBLW  09
+006C:  BTFSC  03.0
+006D:  GOTO   07A
+....................          onlar = 0; 
+006E:  CLRF   34
+....................          yuzler++; 
+006F:  INCF   33,F
+....................          if (yuzler > 9) { 
+0070:  MOVF   33,W
+0071:  SUBLW  09
+0072:  BTFSC  03.0
+0073:  GOTO   07A
+....................             yuzler = 0; 
+0074:  CLRF   33
+....................             binler++; 
+0075:  INCF   32,F
+....................             if (binler > 9) { 
+0076:  MOVF   32,W
+0077:  SUBLW  09
+0078:  BTFSS  03.0
+....................                binler = 0; 
+0079:  CLRF   32
+....................             } 
+....................          } 
+....................       } 
+....................    } else if (button == 3) { 
+007A:  GOTO   094
+007B:  MOVF   27,W
+007C:  SUBLW  03
+007D:  BTFSS  03.2
+007E:  GOTO   08B
+....................       yuzler++; 
+007F:  INCF   33,F
+....................       if (yuzler > 9) { 
+0080:  MOVF   33,W
+0081:  SUBLW  09
+0082:  BTFSC  03.0
+0083:  GOTO   08A
+....................          yuzler = 0; 
+0084:  CLRF   33
+....................          binler++; 
+0085:  INCF   32,F
+....................          if (binler > 9) { 
+0086:  MOVF   32,W
+0087:  SUBLW  09
+0088:  BTFSS  03.0
+....................             binler = 0; 
+0089:  CLRF   32
+....................          } 
+....................       } 
+....................    } else if (button == 4) { 
+008A:  GOTO   094
+008B:  MOVF   27,W
+008C:  SUBLW  04
+008D:  BTFSS  03.2
+008E:  GOTO   094
+....................       binler++; 
+008F:  INCF   32,F
+....................       if (binler > 9) { 
+0090:  MOVF   32,W
+0091:  SUBLW  09
+0092:  BTFSS  03.0
+....................          binler = 0; 
+0093:  CLRF   32
+....................       } 
+....................    } 
+....................    clear_interrupt(INT_RB); 
+0094:  BCF    0B.0
+.................... } 
+....................  
+....................  
+0095:  BCF    0B.0
+0096:  BCF    0A.3
+0097:  BCF    0A.4
+0098:  GOTO   01F
+.................... #int_timer0 
+.................... void timer_kesme(){ 
+....................    set_timer0(131); 
+*
+00A6:  MOVLW  83
+00A7:  MOVWF  01
+....................     
+....................     
+....................    output_high(display1); 
+00A8:  BSF    06.0
+....................    output_d(digit[binler]); 
+00A9:  MOVLW  28
+00AA:  ADDWF  32,W
+00AB:  MOVWF  04
+00AC:  BCF    03.7
+00AD:  MOVF   00,W
+00AE:  MOVWF  36
+00AF:  MOVWF  08
+....................    delay_ms(5); 
+00B0:  MOVLW  05
+00B1:  MOVWF  36
+00B2:  CALL   099
+....................    output_low(display1); 
+00B3:  BCF    06.0
+....................  
+....................    output_high(display2); 
+00B4:  BSF    06.1
+....................    output_d(digit[yuzler]); 
+00B5:  MOVLW  28
+00B6:  ADDWF  33,W
+00B7:  MOVWF  04
+00B8:  BCF    03.7
+00B9:  MOVF   00,W
+00BA:  MOVWF  36
+00BB:  MOVWF  08
+....................    delay_ms(5); 
+00BC:  MOVLW  05
+00BD:  MOVWF  36
+00BE:  CALL   099
+....................    output_low(display2); 
+00BF:  BCF    06.1
+....................  
+....................    output_high(display3); 
+00C0:  BSF    06.2
+....................    output_d(digit[onlar]); 
+00C1:  MOVLW  28
+00C2:  ADDWF  34,W
+00C3:  MOVWF  04
+00C4:  BCF    03.7
+00C5:  MOVF   00,W
+00C6:  MOVWF  36
+00C7:  MOVWF  08
+....................    delay_ms(5); 
+00C8:  MOVLW  05
+00C9:  MOVWF  36
+00CA:  CALL   099
+....................    output_low(display3); 
+00CB:  BCF    06.2
+....................  
+....................    output_high(display4); 
+00CC:  BSF    06.3
+....................    output_d(digit[birler]); 
+00CD:  MOVLW  28
+00CE:  ADDWF  35,W
+00CF:  MOVWF  04
+00D0:  BCF    03.7
+00D1:  MOVF   00,W
+00D2:  MOVWF  36
+00D3:  MOVWF  08
+....................    delay_ms(5); 
+00D4:  MOVLW  05
+00D5:  MOVWF  36
+00D6:  CALL   099
+....................    output_low(display4); 
+00D7:  BCF    06.3
+....................  
+....................    clear_interrupt(INT_TIMER0); 
+00D8:  BCF    0B.2
+00D9:  BCF    0B.2
+00DA:  BCF    0A.3
+00DB:  BCF    0A.4
+00DC:  GOTO   01F
+.................... } 
+....................  
+.................... void main() { 
+00DD:  CLRF   27
+00DE:  CLRF   32
+00DF:  CLRF   33
+00E0:  CLRF   34
+00E1:  CLRF   35
+00E2:  BSF    03.5
+00E3:  BSF    1F.0
+00E4:  BSF    1F.1
+00E5:  BSF    1F.2
+00E6:  BCF    1F.3
+00E7:  BCF    03.7
+00E8:  MOVLW  1F
+00E9:  ANDWF  03,F
+....................    setup_psp(PSP_DISABLED); 
+*
+00FE:  BSF    03.5
+00FF:  BCF    09.4
+....................    setup_timer_1(T1_DISABLED); 
+0100:  BCF    03.5
+0101:  CLRF   10
+....................    setup_timer_2(T2_DISABLED, 0, 1); 
+0102:  MOVLW  00
+0103:  MOVWF  78
+0104:  MOVWF  12
+0105:  MOVLW  00
+0106:  BSF    03.5
+0107:  MOVWF  12
+....................    setup_adc_ports(NO_ANALOGS); 
+0108:  BSF    1F.0
+0109:  BSF    1F.1
+010A:  BSF    1F.2
+010B:  BCF    1F.3
+....................    setup_adc(ADC_OFF); 
+010C:  BCF    03.5
+010D:  BCF    1F.0
+....................    setup_CCP1(CCP_OFF); 
+010E:  MOVLW  F0
+010F:  ANDWF  17,F
+....................    setup_CCP2(CCP_OFF); 
+0110:  ANDWF  1D,F
+....................  
+....................    set_tris_b(0xF0); 
+0111:  BSF    03.5
+0112:  MOVWF  06
+....................    set_tris_d(0x00); 
+0113:  MOVLW  00
+0114:  MOVWF  08
+....................  
+....................    output_low(display1); 
+0115:  BCF    03.5
+0116:  BCF    06.0
+....................    output_low(display2); 
+0117:  BCF    06.1
+....................    output_low(display3); 
+0118:  BCF    06.2
+....................    output_low(display4); 
+0119:  BCF    06.3
+....................  
+....................    setup_timer_0(RTCC_INTERNAL | RTCC_DIV_2); 
+011A:  BSF    03.5
+011B:  MOVF   01,W
+011C:  ANDLW  C0
+011D:  MOVWF  01
+....................    set_timer0(131); 
+011E:  MOVLW  83
+011F:  BCF    03.5
+0120:  MOVWF  01
+....................     
+....................    enable_interrupts(INT_timer0); 
+0121:  BSF    0B.5
+....................    enable_interrupts(INT_RB); 
+0122:  BSF    0B.3
+....................    enable_interrupts(GLOBAL); 
+0123:  MOVLW  C0
+0124:  IORWF  0B,F
+....................  
+....................    while (1); 
+0125:  GOTO   125
+.................... } 
+....................  
+0126:  SLEEP
+
+Configuration Fuses:
+   Word  1: 3F39   XT NOWDT NOPUT NOBROWNOUT NOLVP NOCPD NOWRT NODEBUG NOPROTECT

@@ -5,4 +5,4 @@ In the circuit a pic18f4620 microcontroller has been used. The input voltage is 
 
 The schematic of the circuit is:
 
-![Screenshot](C:\Users\Talip Eren Doyan\Desktop\My_GitHub_Projects\Proje\schematic.png)
+![Screenshot](schematic.png)
